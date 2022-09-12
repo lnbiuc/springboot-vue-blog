@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.beyondhorizon.mapper.FilingMapper">
+    <select id="selectFilingId" resultType="java.lang.Integer">
+        select DISTINCT filing_id
+        from my_blog.blog_filing
+        where filing_id != 0
+    </select>
+    <select id="getFilingNameByArticleId" resultType="top.beyondhorizon.entity.FilingName">
+        select *
+        from my_blog.blog_filing_name
+        where id = (select a.filing_id from my_blog.blog_filing as a where article_id = #{articleId})
+    </select>
+    <select id="selectUnFilingArticle" resultType="top.beyondhorizon.entity.Article">
+        select article_id, title, introduction, release_time, update_time, visits_count, like_count
+        from blog_article
+        where article_id not in (select a.article_id
+                                 from blog_filing as a)
+          and blog_article.deleted = 0
+    </select>
+</mapper>

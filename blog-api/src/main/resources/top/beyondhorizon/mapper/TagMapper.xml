@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.beyondhorizon.mapper.TagMapper">
+    <select id="getTagNameByArticleId" resultType="top.beyondhorizon.entity.TagName">
+        select t.tag_id as tagId, tag_name as tagName
+        from my_blog.blog_tag_name as t
+                 join my_blog.blog_tag as b
+                      on t.tag_id = b.tag_id
+        where b.article_id = #{articleId}
+    </select>
+</mapper>

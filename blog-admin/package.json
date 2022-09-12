@@ -1,0 +1,33 @@
+{
+  "name": "blog-admin",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 4173"
+  },
+  "dependencies": {
+    "@kangc/v-md-editor": "^2.3.15",
+    "axios": "^0.27.2",
+    "codemirror": "^6.0.1",
+    "element-plus": "^2.2.8",
+    "highlight.js": "^11.5.1",
+    "nprogress": "^0.2.0",
+    "pinia": "^2.0.14",
+    "prismjs": "^1.28.0",
+    "tdesign-vue-next": "^0.17.3",
+    "vue": "^3.2.37",
+    "vue-router": "^4.0.16",
+    "webpack": "^5.73.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.3.3",
+    "rollup-plugin-visualizer": "^5.8.1",
+    "unplugin-auto-import": "^0.11.2",
+    "unplugin-vue-components": "^0.22.4",
+    "vite": "^2.9.14",
+    "vite-plugin-compression": "^0.5.1",
+    "webpack-cli": "^4.10.0"
+  }
+}

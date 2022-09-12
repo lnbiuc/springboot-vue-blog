@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.beyondhorizon.mapper.ArticleMapper">
+    <update id="likeAdd">
+        update blog_article
+        set blog_article.like_count = blog_article.like_count + 1
+        where article_id = #{articleId}
+    </update>
+    <update id="recoverArticle">
+        update blog_article
+        set blog_article.deleted = 0
+        where blog_article.articleId = #{articleId}
+    </update>
+    <select id="selectAllGroupByTime" resultType="top.beyondhorizon.model.dto.DataYearMonth">
+        select CAST(c.year as UNSIGNED) as year, CAST(c.month as UNSIGNED) as month
+        from (select DATE_FORMAT(release_time, '%Y') + 0 as year, DATE_FORMAT(release_time, '%m') + 0 as month
+              from blog_article
+              group by month) as c
+        order by month desc
+    </select>
+    <select id="selectAllByMonth" parameterType="top.beyondhorizon.model.dto.DataYearMonth"
+            resultType="top.beyondhorizon.entity.Article">
+        select article_id,
+               author_id,
+               title,
+               introduction,
+               release_time,
+               update_time,
+               set_top,
+               deleted,
+               visits_count,
+               like_count,
+               bg_img
+        from blog_article
+        where year(release_time) = #{date.year}
+          and month(release_time) = #{date.month}
+          and deleted != 1
+        order by release_time desc
+    </select>
+    <select id="countTotal" resultType="java.lang.Integer">
+        select sum(b.visits_count)
+        from blog_article as b
+        where b.deleted != 1
+    </select>
+    <select id="selectArticleByTitle" resultType="top.beyondhorizon.entity.Article">
+        select *
+        from blog_article as a
+        where a.title like concat('%', #{title}, '%')
+          and deleted = 0
+    </select>
+    <select id="selectDeletedArticleList" resultType="top.beyondhorizon.entity.Article">
+        select *
+        from blog_article as a
+        where a.deleted = 1
+    </select>
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.beyondhorizon.mapper.FilingNameMapper">
+
+    <select id="selectArticleByFilingName" resultType="top.beyondhorizon.entity.Article">
+        select c.article_id as article_id,
+               author_id,
+               title,
+               introduction,
+               release_time,
+               update_time,
+               set_top,
+               deleted,
+               visits_count,
+               like_count,
+               bg_img
+        from blog_article as c
+                 right join (select b.article_id
+                             from blog_filing as b
+                             where b.filing_id = (select a.id
+                                                  from blog_filing_name as a
+                                                  where a.filing_name = #{filingName})) as d
+                            on c.article_id = d.article_id
+    </select>
+    <select id="selectArticleByFilingId" resultType="top.beyondhorizon.entity.Article">
+        select c.article_id as article_id,
+               author_id,
+               title,
+               introduction,
+               release_time,
+               update_time,
+               set_top,
+               deleted,
+               visits_count,
+               like_count,
+               bg_img
+        from blog_article as c
+                 right join (select b.article_id
+                             from blog_filing as b
+                             where b.filing_id = #{filingId}) as d
+                            on c.article_id = d.article_id
+    </select>
+</mapper>

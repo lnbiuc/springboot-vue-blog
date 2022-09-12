@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.beyondhorizon.mapper.TagNameMapper">
+
+    <select id="selectArticleByTagName" resultType="top.beyondhorizon.entity.Article">
+        select d.article_id as article_id,
+               author_id,
+               title,
+               introduction,
+               release_time,
+               update_time,
+               set_top,
+               deleted,
+               visits_count,
+               like_count,
+               bg_img
+        from blog_article as d
+                 right join (select b.article_id
+                             from blog_tag as b
+                             where b.tag_id = (select a.tag_id
+                                               from blog_tag_name as a
+                                               where a.tag_name = #{tag})) as c on c.article_id = d.article_id;
+    </select>
+    <select id="selectArticleByTagId" resultType="top.beyondhorizon.entity.Article">
+        select d.article_id as article_id,
+               author_id,
+               title,
+               introduction,
+               release_time,
+               update_time,
+               set_top,
+               deleted,
+               visits_count,
+               like_count,
+               bg_img
+        from blog_article as d
+                 right join (select b.article_id
+                             from blog_tag as b
+                             where b.tag_id = #{tagId}) as c on c.article_id = d.article_id;
+    </select>
+    <select id="selectInUseTagName" resultType="top.beyondhorizon.entity.TagName">
+        select b.tag_id, tag_name
+        from blog_tag_name as b
+                 right join (select distinct a.tag_id
+                             from blog_tag as a) as c on b.tag_id = c.tag_id
+    </select>
+</mapper>
